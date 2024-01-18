@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Covert Law Enforcement</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+    </head>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <nav class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="https://valorence.com/">
+                  <img src="{% static 'C:\Users\lando\PycharmProjects\mysite\mysite\polls\static\VALORENCE320 L0G0.png' %}" width="200" height="30" class="d-inline-block align-top" alt="">
+                </a>
+              </nav>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="./home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./pwr">Power Usage</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./storage">Storage</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./connectivity">Connectivity</a>
+              </li>
+            </ul>
+          </div>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="./help">Help</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  <body>
+    <form method="post" id="csrf-form">
+      {% csrf_token %}
+      <div class="row row-cols-1 row-cols-md-2 g-4" style="margin: 1em;">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="card-title">Temperature <span class="badge rounded-pill bg-secondary" style="float:right;">78</span></h1>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="card-title">Power <span class="badge rounded-pill bg-secondary" style="float:right;">12.8V</span></h1>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Router <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <div class="form-group" style="display: flex">
+                <button type="button" class="btn btn-success btn form-control" style="margin: 5px;" >Restart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Camera <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <div class="form-group" style="display: flex;">
+                <button type="button" class="btn btn-success btn form-control" style="margin: 5px;">ON</button>
+                <button type="button" class="btn btn-danger btn form-control" style="margin: 5px;">OFF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Fan<span class="badge rounded-pill bg-secondary" id="fan_status" style="float:right;">Status</span></h4>
+              <div class="form-group" style="display: flex;">
+                <button type="button" class="btn btn-success btn form-control" id="fan_on" style="margin: 5px;">ON</button>
+                <button type="button" class="btn btn-danger btn form-control" id="fan_off" style="margin: 5px;">OFF</button>
+              </div>
+              <div class="form-group" style="display: flex;">
+                <button type="button" class="btn btn-warning btn form-control" id="fan_5min" style="margin: 5px;">RUN FOR 5 MIN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Strobe Light <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <div class="form-group" style="display: flex;" >
+                <button type="button" class="btn btn-success btn form-control" style="margin: 5px; ">ON</button>
+                <button type="button" class="btn btn-danger btn form-control" style="margin: 5px;">OFF</button>
+              </div>
+              <div class="form-group" style="display: flex">
+                <button type="button" class="btn btn-warning btn form-control" style="margin: 5px;">RUN FOR 5 MIN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  <script src="{% static 'relay.js' %}"></script>
+  </body>
+
