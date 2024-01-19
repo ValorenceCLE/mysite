@@ -1,69 +1,67 @@
-import nmap
-import subprocess
+import speedtest
+from datetime import datetime
+import csv
+
+RouterIp = '192.168.1.1'
+CameraIp = '192.168.1.3'
+
+# Create separate Speedtest objects for router and camera
+st_router = speedtest.Speedtest()
+st_camera = speedtest.Speedtest()
 
 
-def scan_network(network_ip):
-    nm = nmap.PortScanner()
-    nm.scan(hosts=network_ip, arguments='-sn')  # -sn flag for host discovery
+def Router_speed_test():
+    # Measure download and upload speeds
+    download_speed = st_router.download() / 10 ** 6  # Convert to Mbps
+    upload_speed = st_router.upload() / 10 ** 6  # Convert to Mbps
 
-    devices = []
+    # Get the current timestamp
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    for host in nm.all_hosts():
-        if 'mac' in nm[host]['addresses']:
-            device = {
-                'ip': host,
-                'mac': nm[host]['addresses']['mac'],
-                'vendor': nm[host]['vendor'],
-            }
-            devices.append(device)
+    # Print the results to the console
+    print(f"Router Speed Test - {timestamp}")
+    print(f"Download: {download_speed:.2f} Mbps")
+    print(f"Upload: {upload_speed:.2f} Mbps")
 
-    return devices
+    # Save the results to a CSV file for the router
+    with open('router_speedtest.csv', 'a', newline='') as csvfile:
+        fieldnames = ['Timestamp', 'Download (Mbps)', 'Upload (Mbps)']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
+        # Write the header row if the file is empty
+        if csvfile.tell() == 0:
+            writer.writeheader()
 
-def run_speed_test(device_ip):
-    try:
-        result = subprocess.check_output(['speedtest-cli', '--simple'], universal_newlines=True)
-        lines = result.split('\n')
-        if len(lines) >= 3:
-            ping = lines[0].split()[-2]
-            download_speed = lines[1].split()[1]
-            upload_speed = lines[2].split()[1]
-            return ping, download_speed, upload_speed
-    except Exception as e:
-        return None, None, None
+        # Write the results to the CSV
+        writer.writerow({'Timestamp': timestamp, 'Download (Mbps)': download_speed, 'Upload (Mbps)': upload_speed})
 
 
-if __name__ == "__main__":
-    network_ip = "192.168.1.0/24"  # Replace with your network IP range
-    devices = scan_network(network_ip)
+def Camera_speed_test():
+    # Measure download and upload speeds
+    download_speed = st_camera.download() / 10 ** 6  # Convert to Mbps
+    upload_speed = st_camera.upload() / 10 ** 6  # Convert to Mbps
 
-    print("Devices on the network:")
+    # Get the current timestamp
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    for device in devices:
-        print(f"IP: {device['ip']}, MAC: {device['mac']}, Vendor: {device['vendor']}")
+    # Print the results to the console
+    print(f"Camera Speed Test - {timestamp}")
+    print(f"Download: {download_speed:.2f} Mbps")
+    print(f"Upload: {upload_speed:.2f} Mbps")
 
-    print("\nRunning speed tests on specific devices:")
-    for device in devices:
-        device_ip = device['ip']
-        if device_ip == '192.168.1.1':
-            print("Checking Router:")
-            ping, download_speed, upload_speed = run_speed_test(device_ip)
-            if ping and download_speed and upload_speed:
-                print(f"Router IP: {device_ip}")
-                print(f"Ping: {ping} ms")
-                print(f"Download Speed: {download_speed} Mbps")
-                print(f"Upload Speed: {upload_speed} Mbps")
-            else:
-                print(f"Speed test for Router ({device_ip}) failed.")
-        elif device_ip == '192.168.1.3':
-            print("Checking Camera:")
-            ping, download_speed, upload_speed = run_speed_test(device_ip)
-            if ping and download_speed and upload_speed:
-                print(f"Camera IP: {device_ip}")
-                print(f"Ping: {ping} ms")
-                print(f"Download Speed: {download_speed} Mbps")
-                print(f"Upload Speed: {upload_speed} Mbps")
-            else:
-                print(f"Speed test for Camera ({device_ip}) failed.")
+    # Save the results to a CSV file for the camera
+    with open('camera_speedtest.csv', 'a', newline='') as csvfile:
+        fieldnames = ['Timestamp', 'Download (Mbps)', 'Upload (Mbps)']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        print()
+        # Write the header row if the file is empty
+        if csvfile.tell() == 0:
+            writer.writeheader()
+
+        # Write the results to the CSV
+        writer.writerow({'Timestamp': timestamp, 'Download (Mbps)': download_speed, 'Upload (Mbps)': upload_speed})
+
+
+# Perform speed tests
+Router_speed_test()
+Camera_speed_test()
