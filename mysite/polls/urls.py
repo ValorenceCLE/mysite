@@ -17,6 +17,8 @@ urlpatterns = [
     path('fan_on/', views.fan_on, name="fan_on"),
     path('fan_off/', views.fan_off, name="fan_off"),
     path('fan_run_for_5_minutes/', views.fan_run_for_5_minutes, name="fan_run_for_5_minutes"),
+    path('router_uptime/', views.router_uptime, name='router_uptime'),
+    path('camera_uptime/', views.camera_uptime, name='camera_uptime'),
 
 ]
 

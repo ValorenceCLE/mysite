@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import subprocess
 
 def main():
     """Run administrative tasks."""
@@ -15,8 +15,16 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
 
+    # Add code to run commands from the 'commands' folder here
+    #commands_folder = 'mysite/polls/management/commands'
+    #for filename in os.listdir(commands_folder):
+        #if filename.endswith('.py') and not filename.startswith('__'):
+            #script_path = os.path.join(commands_folder, filename)
+            #subprocess.Popen(['python', 'manage.py', script_path], cwd=os.path.dirname(__file__))
+
+    # Run the Django server
+    execute_from_command_line(sys.argv)
 
 if __name__ == '__main__':
     main()

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'polls',
     'mysite',
     'channels',
+    'django_extensions',
 ]
 
 CHANNEL_LAYERS = {

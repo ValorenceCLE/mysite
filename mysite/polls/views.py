@@ -4,9 +4,9 @@ from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
-import random
-import inspect
-from .scripts.relay import turn_fan_on, turn_fan_off, run_fan_for_5_minutes
+from .management.commands.uptime import get_uptime
+
+from .management.relay import turn_fan_on, turn_fan_off, run_fan_for_5_minutes
 
 
 def home(request):
@@ -46,3 +46,11 @@ def fan_off(request):
 def fan_run_for_5_minutes(request):
     run_fan_for_5_minutes()
     return JsonResponse({"message": "Fan ran for 5 minutes"})
+
+def router_uptime(request):
+    # Call get_uptime and pass "router" as the device identifier
+    return get_uptime(request, "router")
+
+def camera_uptime(request):
+    # Call get_uptime and pass "camera" as the device identifier
+    return get_uptime(request, "camera")
