@@ -50,23 +50,23 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h1 class="card-title">Temperature <span class="badge rounded-pill bg-secondary" style="float:right;">78</span></h1>
+              <h1 class="card-title">Temperature <span class="badge rounded-pill bg-secondary" id="CurrentTemp" style="float:right;">78</span></h1>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h1 class="card-title">Power <span class="badge rounded-pill bg-secondary" style="float:right;">12.8V</span></h1>
+              <h1 class="card-title">Power <span class="badge rounded-pill bg-secondary" id="CurrentVolts" style="float:right;">12.8V</span></h1>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Router <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <h4 class="card-title">Router <span class="badge rounded-pill bg-secondary" style="float:right;" id="RouterStatus">Status</span></h4>
               <div class="form-group" style="display: flex">
-                <button type="button" class="btn btn-success btn form-control" style="margin: 5px;" >Restart</button>
+                <button type="button" id="RouterReset" class="btn btn-success btn form-control" style="margin: 5px;" data-url="{% url 'router_reset' %}" >Restart</button>
               </div>
             </div>
           </div>
@@ -74,10 +74,10 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Camera <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <h4 class="card-title">Camera <span class="badge rounded-pill bg-secondary" style="float:right;" id="CameraStatus">Status</span></h4>
               <div class="form-group" style="display: flex;">
-                <button type="button" class="btn btn-success btn form-control" style="margin: 5px;">ON</button>
-                <button type="button" class="btn btn-danger btn form-control" style="margin: 5px;">OFF</button>
+                <button type="button" id="CameraOn" class="btn btn-success btn form-control" style="margin: 5px;" data-url="{% url 'camera_on' %}">ON</button>
+                <button type="button" id="CameraOff" class="btn btn-danger btn form-control" style="margin: 5px;" data-url="{% url 'camera_off' %}">OFF</button>
               </div>
             </div>
           </div>
@@ -85,13 +85,13 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Fan<span class="badge rounded-pill bg-secondary" id="fan_status" style="float:right;">Status</span></h4>
+              <h4 class="card-title">Fan<span class="badge rounded-pill bg-secondary" id="FanStatus" style="float:right;">Status</span></h4>
               <div class="form-group" style="display: flex;">
-                <button type="button" class="btn btn-success btn form-control" id="fan_on" style="margin: 5px;">ON</button>
-                <button type="button" class="btn btn-danger btn form-control" id="fan_off" style="margin: 5px;">OFF</button>
+                <button type="button" class="btn btn-success btn form-control" id="FanOn" style="margin: 5px;" data-url="{% url 'fan_on' %}">ON</button>
+                <button type="button" class="btn btn-danger btn form-control" id="FanOff" style="margin: 5px;" data-url="{% url 'fan_off' %}">OFF</button>
               </div>
               <div class="form-group" style="display: flex;">
-                <button type="button" class="btn btn-warning btn form-control" id="fan_5min" style="margin: 5px;">RUN FOR 5 MIN</button>
+                <button type="button" class="btn btn-warning btn form-control" id="Fan5Min" style="margin: 5px;" data-url="{% url 'fan_5min' %}">RUN FOR 5 MIN</button>
               </div>
             </div>
           </div>
@@ -99,13 +99,13 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Strobe Light <span class="badge rounded-pill bg-secondary" style="float:right;">Status</span></h4>
+              <h4 class="card-title">Strobe Light <span class="badge rounded-pill bg-secondary" style="float:right;" id="StrobeStatus">Status</span></h4>
               <div class="form-group" style="display: flex;" >
-                <button type="button" class="btn btn-success btn form-control" style="margin: 5px; ">ON</button>
-                <button type="button" class="btn btn-danger btn form-control" style="margin: 5px;">OFF</button>
+                <button type="button" id="StrobeOn" class="btn btn-success btn form-control" style="margin: 5px;" data-url="{% url 'strobe_on' %}">ON</button>
+                <button type="button" id="StrobeOff" class="btn btn-danger btn form-control" style="margin: 5px;" data-url="{% url 'strobe_off' %}">OFF</button>
               </div>
               <div class="form-group" style="display: flex">
-                <button type="button" class="btn btn-warning btn form-control" style="margin: 5px;">RUN FOR 5 MIN</button>
+                <button type="button" id="Strobe5Min" class="btn btn-warning btn form-control" style="margin: 5px;" data-url="{% url 'strobe_5min' %}">RUN FOR 5 MIN</button>
               </div>
             </div>
           </div>

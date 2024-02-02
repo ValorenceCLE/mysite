@@ -1,61 +1,47 @@
-// Function to handle fan on button click
-document.getElementById('fan_on').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Get the CSRF token from the form
-    fetch('/fan_on/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken, // Include the CSRF token in the request headers
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response, update UI, show a message, etc.
-        console.log(data.message);
-        document.getElementById('fan_status').textContent = 'Fan is ON';
-    })
-    .catch(error => {
-        console.error('Error:', error);
+console.log('relay.js loaded and executed');
+
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('button[data-url]');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const url = button.getAttribute('data-url');
+
+      if (url) {
+        // Log button click for debugging
+        console.log(`Button clicked for URL: ${url}`);
+
+        // Get CSRF token
+        const csrfToken = getCookie('csrftoken');
+        console.log('CSRF Token:', csrfToken);
+
+        // Send a POST request to the URL with CSRF token
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken, // Include the CSRF token
+          },
+          body: JSON.stringify({ action: button.id }), // Use the button's ID as the action
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log(`Successfully sent a command to ${url}`);
+          } else {
+            console.error(`Failed to send a command to ${url}`);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      } else {
+        console.error('Button does not have a data-url attribute.');
+      }
     });
+  });
 });
 
-// Function to handle fan off button click
-document.getElementById('fan_off').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Get the CSRF token from the form
-    fetch('/fan_off/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken, // Include the CSRF token in the request headers
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response, update UI, show a message, etc.
-        console.log(data.message);
-        document.getElementById('fan_status').textContent = 'Fan is OFF';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
-// Function to handle fan run for 5 minutes button click
-document.getElementById('fan_5min').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Get the CSRF token from the form
-    fetch('/fan_run_for_5_minutes/', {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken, // Include the CSRF token in the request headers
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response, show a message, etc.
-        console.log(data.message);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
+// Function to get the CSRF token from cookies (same as before)
+function getCookie(name) {
+  const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return cookieValue ? cookieValue.pop() : '';
+}
