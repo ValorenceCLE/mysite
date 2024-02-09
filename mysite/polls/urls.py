@@ -7,14 +7,14 @@ from .views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .management.commands import relay
 from .views import GPIOStatusConsumer
+from .views import SensorDataConsumer
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('home', views.home, name="home"),
     path('connectivity', views.connectivity, name="connectivity"),
     path('help', views.support, name="support"),
-    path('pwr', views.pwr, name="pwr"),
-    path('storage', views.storage, name="storage"),
+    path('system', views.system, name="system"),
     path('thanks', views.thanks, name="thanks"),
     path('router_uptime/', views.router_uptime, name='router_uptime'),
     path('camera_uptime/', views.camera_uptime, name='camera_uptime'),
@@ -35,4 +35,5 @@ urlpatterns += staticfiles_urlpatterns()
 
 websocket_urlpatterns = [
     re_path(r'^ws/gpio/status/$', GPIOStatusConsumer.as_asgi()),
+    re_path(r'^ws/sensor/data/$', SensorDataConsumer.as_asgi()),
 ]
