@@ -1,48 +1,28 @@
-from pysnmp.hlapi import *
+import time
+import psutil
 
-# Define SNMP parameters
-target_host = '192.168.1.1'  # Replace with your router's IP address
-community_string = 'public'  # Replace with your SNMP community string
+last_received = psutil.net_io_counters().bytes_recv
+last_sent = psutil.net_io_counters().bytes_sent
+last_total = last_received + last_sent
 
-# Define OIDs for bandwidth monitoring (These OIDs may need adjustment depending on your device)
-in_octets_oid = ObjectIdentity('1.3.6.1.2.1.2.2.1.10.1')  # Incoming traffic in octets
-out_octets_oid = ObjectIdentity('1.3.6.1.2.1.2.2.1.16.1')  # Outgoing traffic in octets
+while True:
+    bytes_received = psutil.net_io_counters().bytes_recv
+    bytes_sent = psutil.net_io_counters().bytes_sent
+    bytes_total = bytes_received + bytes_sent
 
-# SNMP query function
-def get_bandwidth_usage():
-    for (errorIndication,
-         errorStatus,
-         errorIndex,
-         varBinds) in getCmd(SnmpEngine(),
-                             CommunityData(community_string),
-                             UdpTransportTarget((target_host, 161)),
-                             ContextData(),
-                             ObjectType(in_octets_oid),
-                             ObjectType(out_octets_oid),
-                             lookupMib=False):
 
-        if errorIndication:
-            print(f"SNMP Error: {errorIndication}")
-            return None
+    new_received = bytes_received - last_received
+    new_sent = bytes_sent - last_sent
+    new_total = bytes_total - last_total
 
-        if errorStatus:
-            print(f"SNMP Error: {errorStatus}")
-            return None
+    mb_new_received = new_received / 1024 / 1024
+    mb_new_sent = new_sent / 1024 / 1024
+    mb_new_total = new_total / 1024 / 1024
 
-        # Extract and calculate bandwidth usage
-        in_octets, out_octets = varBinds
-        in_octets = int(in_octets[1])
-        out_octets = int(out_octets[1])
+    print(f"{mb_new_received:.2f} MB Received, {mb_new_sent:.2f} MB Sent, {mb_new_total:.2f} MB Total ")
 
-        # Convert octets to Mbps (1 byte = 8 bits, 1 Mbps = 1,000,000 bits)
-        in_mbps = (in_octets * 8) / 1e6
-        out_mbps = (out_octets * 8) / 1e6
+    last_received = bytes_received
+    last_sent = bytes_sent
+    last_total = bytes_total
 
-        return in_mbps, out_mbps
-
-# Get and print bandwidth usage
-bandwidth = get_bandwidth_usage()
-if bandwidth:
-    in_mbps, out_mbps = bandwidth
-    print(f"Incoming Bandwidth: {in_mbps:.2f} Mbps")
-    print(f"Outgoing Bandwidth: {out_mbps:.2f} Mbps")
+    time.sleep(3)

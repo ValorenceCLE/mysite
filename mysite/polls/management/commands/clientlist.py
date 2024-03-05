@@ -1,10 +1,5 @@
 import nmap
 import requests
-
-
-## BELOW CODE IS TO RETRIVE CLIENT LIST ##
-
-# Function to perform a MAC address lookup and retrieve device names
 def get_device_name(mac_address):
     # Use a MAC address lookup API (You can replace with your preferred API)
     mac_lookup_url = f"https://api.macvendors.com/{mac_address}"

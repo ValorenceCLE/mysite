@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .management.commands.uptime import get_uptime
-from .management.commands import relay
+from mysite.polls.utils.uptime import get_uptime
+from .utils import relay
 import json
 from threading import Thread
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .management.commands.ina260 import INA260Sensor
-from .management.commands.aht10 import AHT10
+from .utils.router_power import INA260Router
+from .utils.aht10 import AHT10
 from asgiref.sync import sync_to_async
 import asyncio
-import time
+
 
 def home(request):
     return render(request, 'home.html')
@@ -131,7 +131,7 @@ class SensorDataConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
         self.aht10_sensor = AHT10()
-        self.ina260_sensor = INA260Sensor()
+        self.ina260_sensor = INA260Router()
         self.last_temperature = None
         self.last_voltage = None
         asyncio.create_task(self.send_sensor_data_when_changed())

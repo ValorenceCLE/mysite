@@ -67,11 +67,3 @@ def get_uptime(request, device):
 
     response_data = {"output": uptime_data}
     return JsonResponse(response_data)
-
-# Example usage in views.py:
-# from django.http import JsonResponse
-# def trigger_router_uptime_script(request):
-#     return get_uptime(request, "router")
-
-# def trigger_camera_uptime_script(request):
-#     return get_uptime(request, "camera")

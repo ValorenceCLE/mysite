@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from . import views
 from .views import home
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from .management.commands import relay
+from .utils import relay
 from .views import GPIOStatusConsumer
 from .views import SensorDataConsumer
 
